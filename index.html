@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Us, Always — A Memory Vault</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ================= AMBIENT BACKGROUND ================= -->
+<div class="stars" id="stars"></div>
+<div class="grain"></div>
+
+<!-- ================= NAVIGATION ================= -->
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="#top" class="nav-mark">
+      <span class="mark-glyph">&infin;</span>
+      <span class="mark-text">Us, Always</span>
+    </a>
+    <nav class="nav-links">
+      <a href="#timeline">Timeline</a>
+      <a href="#vault" class="nav-vault-link">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="2.5" y="6" width="9" height="6.5" rx="1.2" stroke="currentColor" stroke-width="1.2"/><path d="M4.5 6V4.2C4.5 2.7 5.6 1.5 7 1.5C8.4 1.5 9.5 2.7 9.5 4.2V6" stroke="currentColor" stroke-width="1.2"/><circle cx="7" cy="9" r="0.9" fill="currentColor"/></svg>
+        Private Vault
+      </a>
+      <a href="#goofy-vault" class="nav-goofy-link">
+        <span class="nav-goofy-emoji">🤪</span>
+        Goofy Mode
+      </a>
+      <a href="#timeline" class="nav-cta">Folders</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ================= HERO ================= -->
+<section class="hero" id="top">
+  <div class="hero-glow"></div>
+  <div class="hero-inner">
+    <p class="eyebrow">a private vault for tsay and tuni</p>
+    <h1 class="hero-title">
+      <span class="line">Every moment</span>
+      <span class="line italic">we didn't want</span>
+      <span class="line">to forget.</span>
+    </h1>
+    <p class="hero-sub">Photos, videos, and tiny pieces of us — kept safe, kept close, kept only between you and me.</p>
+
+    <div class="hero-actions">
+      <a href="#timeline" class="btn btn-primary">Browse our folders</a>
+      <a href="#vault" class="btn btn-ghost">Open the private vault</a>
+    </div>
+
+    <div class="hero-stats" id="hero-stats">
+      <div class="stat">
+        <span class="stat-num" id="stat-count">0</span>
+        <span class="stat-label">memories kept</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat">
+        <span class="stat-num" id="stat-days">0</span>
+        <span class="stat-label">folders filled</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat">
+        <span class="stat-num" id="stat-first">—</span>
+        <span class="stat-label">places kept</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Floating polaroid cluster — tap any to add your own photo -->
+  <div class="polaroid-field" id="polaroid-field">
+    <button type="button" class="polaroid p1" data-slot="0" aria-label="Add a photo to this polaroid">
+      <div class="polaroid-photo ph1" id="polaroid-img-0">
+        <span class="polaroid-plus">+</span>
+      </div>
+      <span class="polaroid-cap">&hearts;</span>
+    </button>
+    <button type="button" class="polaroid p2" data-slot="1" aria-label="Add a photo to this polaroid">
+      <div class="polaroid-photo ph2" id="polaroid-img-1">
+        <span class="polaroid-plus">+</span>
+      </div>
+      <span class="polaroid-cap">&hearts;</span>
+    </button>
+    <button type="button" class="polaroid p3" data-slot="2" aria-label="Add a photo to this polaroid">
+      <div class="polaroid-photo ph3" id="polaroid-img-2">
+        <span class="polaroid-plus">+</span>
+      </div>
+      <span class="polaroid-cap">&hearts;</span>
+    </button>
+    <input type="file" id="polaroid-file-input" accept="image/*" hidden>
+  </div>
+
+  <a class="scroll-cue" href="#timeline" aria-label="Scroll to timeline">
+    <span></span>
+  </a>
+</section>
+
+<!-- ================= TIMELINE / MEMORY FOLDERS ================= -->
+<section class="timeline-section" id="timeline">
+  <div class="section-head">
+    <p class="eyebrow">organized by place</p>
+    <h2>The timeline of us</h2>
+    <p class="section-sub">Every trip lives in its own folder below — open one to walk back through that day, in order.</p>
+  </div>
+
+  <div class="timeline-controls">
+    <div class="search-wrap">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.5"/><path d="M11 11L14.5 14.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      <input type="text" id="search-input" placeholder="Search a folder, place, or note…">
+    </div>
+  </div>
+
+  <!-- Folder grid: each card is a trip/location, click to open -->
+  <div class="folders-grid" id="folders-grid">
+    <!-- populated by JS from the FOLDERS array in script.js -->
+  </div>
+
+  <div class="empty-state" id="empty-state">
+    <span class="empty-glyph">&hearts;</span>
+    <h3>Nothing kept yet</h3>
+    <p>This is where your story will live, once memories are added.</p>
+  </div>
+</section>
+
+<!-- ================= FOLDER VIEWER (opens when a folder is clicked) ================= -->
+<div class="folder-viewer" id="folder-viewer">
+  <div class="folder-viewer-inner">
+    <button class="folder-viewer-back" id="folder-viewer-back">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 13L5 8L10 3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      All folders
+    </button>
+    <div class="folder-viewer-head">
+      <p class="eyebrow" id="folder-viewer-eyebrow">memory folder</p>
+      <h2 id="folder-viewer-title"></h2>
+      <p class="folder-viewer-location" id="folder-viewer-location"></p>
+      <p class="folder-viewer-note" id="folder-viewer-note"></p>
+    </div>
+    <div class="folder-viewer-grid" id="folder-viewer-grid">
+      <!-- populated by JS -->
+    </div>
+    <div class="folder-viewer-empty" id="folder-viewer-empty">
+      <span class="empty-glyph">📁</span>
+      <h3>No photos here yet</h3>
+      <p>Add image paths for this folder inside the <code>FOLDERS</code> list at the top of <code>script.js</code> and they'll appear here.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ================= PRIVATE VAULT ================= -->
+<section class="vault-section" id="vault">
+  <div class="vault-ambient" aria-hidden="true"></div>
+
+  <!-- LOCKED STATE -->
+  <div class="vault-locked" id="vault-locked">
+    <div class="vault-door">
+      <div class="vault-door-ring">
+        <svg width="34" height="34" viewBox="0 0 34 34" fill="none">
+          <rect x="6" y="15" width="22" height="16" rx="2.5" stroke="currentColor" stroke-width="1.6"/>
+          <path d="M10.5 15V10C10.5 6.4 13.4 3.5 17 3.5C20.6 3.5 23.5 6.4 23.5 10V15" stroke="currentColor" stroke-width="1.6"/>
+          <circle cx="17" cy="21.5" r="2" fill="currentColor"/>
+          <path d="M17 23.5V26.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <p class="eyebrow">just for us</p>
+      <h2>The Private Vault</h2>
+      <p class="vault-locked-sub">Some moments are only meant for two. Enter the password to open what's kept here.</p>
+
+      <form class="vault-pass-form" id="vault-pass-form" autocomplete="off">
+        <div class="vault-pass-dots" id="vault-pass-dots" aria-hidden="true">
+          <span class="vp-dot"></span><span class="vp-dot"></span><span class="vp-dot"></span><span class="vp-dot"></span>
+        </div>
+        <input
+          type="password"
+          inputmode="numeric"
+          id="vault-pass-input"
+          class="vault-pass-input"
+          maxlength="12"
+          placeholder="Enter password"
+          aria-label="Vault password">
+        <button type="submit" class="btn btn-primary vault-unlock-btn">Unlock</button>
+        <p class="vault-pass-error" id="vault-pass-error"></p>
+      </form>
+    </div>
+  </div>
+
+  <!-- UNLOCKED STATE -->
+  <div class="vault-unlocked" id="vault-unlocked">
+    <div class="section-head">
+      <p class="eyebrow">welcome back</p>
+      <h2>The Private Vault</h2>
+      <p class="section-sub">Just the two of you. Everything here stays only here.</p>
+    </div>
+
+    <div class="vault-toolbar">
+      <div class="vault-folder-tabs" id="vault-folder-tabs">
+        <button class="vault-tab active" data-folder="photos">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="3" width="12" height="10" rx="1.5" stroke="currentColor" stroke-width="1.3"/><circle cx="5.5" cy="6.5" r="1.2" stroke="currentColor" stroke-width="1.1"/><path d="M2 11L6 8L9 10.5L11 8.5L14 11.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Photos
+          <span class="vault-tab-count" id="vault-count-photos">0</span>
+        </button>
+        <button class="vault-tab" data-folder="videos">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="4" width="8.5" height="8" rx="1.3" stroke="currentColor" stroke-width="1.3"/><path d="M10.5 7L14 5V11L10.5 9" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
+          Videos
+          <span class="vault-tab-count" id="vault-count-videos">0</span>
+        </button>
+      </div>
+      <div class="vault-actions">
+      
+        <button class="vault-lock-btn" id="vault-lock-btn" aria-label="Lock the vault">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="3" y="7" width="10" height="7" rx="1.3" stroke="currentColor" stroke-width="1.3"/><path d="M5 7V5C5 3 6.6 1.5 8 1.5C9.4 1.5 11 3 11 5" stroke="currentColor" stroke-width="1.3"/></svg>
+          Lock
+        </button>
+      </div>
+    </div>
+
+  
+
+    <div class="vault-grid" id="vault-grid"><!-- populated by JS --></div>
+
+    <div class="vault-empty" id="vault-empty">
+      <span class="empty-glyph">🔒</span>
+      <h3 id="vault-empty-title">This folder is empty</h3>
+      <p>Add a photo or video that's just between the two of you.</p>
+  
+    </div>
+  </div>
+</section>
+
+<!-- ================= GOOFY VAULT ================= -->
+<section class="vault-section goofy-section" id="goofy-vault">
+  <div class="goofy-ambient" aria-hidden="true">
+    <span class="goofy-float gf1">😂</span>
+    <span class="goofy-float gf2">🤨</span>
+    <span class="goofy-float gf3">😜</span>
+    <span class="goofy-float gf4">🫠</span>
+  </div>
+
+  <!-- LOCKED STATE -->
+  <div class="vault-locked goofy-locked" id="goofy-locked">
+    <div class="vault-door goofy-door">
+      <div class="vault-door-ring goofy-ring">
+        <span class="goofy-ring-emoji">🤪</span>
+      </div>
+      <p class="eyebrow goofy-eyebrow">unhinged content ahead</p>
+      <h2>Goofy Mode</h2>
+      <p class="vault-locked-sub">Every cursed angle, every epic fail, every face too unserious for the main feed. Password required, no exceptions.</p>
+
+      <form class="vault-pass-form goofy-pass-form" id="goofy-pass-form" autocomplete="off">
+        <div class="vault-pass-dots goofy-pass-dots" id="goofy-pass-dots" aria-hidden="true">
+          <span class="vp-dot"></span><span class="vp-dot"></span><span class="vp-dot"></span><span class="vp-dot"></span>
+          <span class="vp-dot"></span><span class="vp-dot"></span><span class="vp-dot"></span><span class="vp-dot"></span>
+          <span class="vp-dot"></span><span class="vp-dot"></span><span class="vp-dot"></span>
+        </div>
+        <input
+          type="password"
+          id="goofy-pass-input"
+          class="vault-pass-input"
+          maxlength="40"
+          placeholder="Enter password"
+          aria-label="Goofy vault password">
+        <button type="submit" class="btn btn-primary goofy-unlock-btn">Let me in</button>
+        <p class="vault-pass-error" id="goofy-pass-error"></p>
+      </form>
+    </div>
+  </div>
+
+  <!-- UNLOCKED STATE -->
+  <div class="vault-unlocked goofy-unlocked" id="goofy-unlocked">
+    <div class="section-head">
+      <p class="eyebrow goofy-eyebrow">welcome to the chaos</p>
+      <h2 class="goofy-title">Goofy Mode</h2>
+      <p class="section-sub">No judgment in here. Just the best/worst faces either of us has ever made.</p>
+    </div>
+
+    <div class="vault-toolbar">
+      <div class="vault-folder-tabs goofy-tabs" id="goofy-folder-tabs">
+        <button class="vault-tab active" data-folder="photos">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="3" width="12" height="10" rx="1.5" stroke="currentColor" stroke-width="1.3"/><circle cx="5.5" cy="6.5" r="1.2" stroke="currentColor" stroke-width="1.1"/><path d="M2 11L6 8L9 10.5L11 8.5L14 11.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Funny Faces
+          <span class="vault-tab-count" id="goofy-count-photos">0</span>
+        </button>
+        <button class="vault-tab" data-folder="videos">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="4" width="8.5" height="8" rx="1.3" stroke="currentColor" stroke-width="1.3"/><path d="M10.5 7L14 5V11L10.5 9" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
+          Epic Clips
+          <span class="vault-tab-count" id="goofy-count-videos">0</span>
+        </button>
+      </div>
+      <div class="vault-actions">
+        <button class="btn btn-ghost goofy-add-btn" id="goofy-add-btn">+ Add chaos</button>
+        <button class="vault-lock-btn goofy-lock-btn" id="goofy-lock-btn" aria-label="Lock the goofy vault">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="3" y="7" width="10" height="7" rx="1.3" stroke="currentColor" stroke-width="1.3"/><path d="M5 7V5C5 3 6.6 1.5 8 1.5C9.4 1.5 11 3 11 5" stroke="currentColor" stroke-width="1.3"/></svg>
+          Lock
+        </button>
+      </div>
+    </div>
+
+    <input type="file" id="goofy-file-input" accept="image/*,video/*" multiple hidden>
+
+    <div class="vault-grid goofy-grid" id="goofy-grid"><!-- populated by JS --></div>
+
+    <div class="vault-empty" id="goofy-empty">
+      <span class="empty-glyph">🤡</span>
+      <h3 id="goofy-empty-title">Nothing chaotic in here yet</h3>
+      <p>Add a face that deserves to be remembered forever.</p>
+      <button class="btn btn-ghost" id="goofy-empty-add">Add something</button>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer class="site-footer">
+  <p class="footer-credit">Designed &amp; built with care by <span class="footer-credit-name">Tsayra</span></p>
+</footer>
+
+<!-- ================= LIGHTBOX ================= -->
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" id="lightbox-close" aria-label="Close">&times;</button>
+  <button class="lightbox-nav lightbox-prev" id="lightbox-prev" aria-label="Previous">&#8249;</button>
+  <button class="lightbox-nav lightbox-next" id="lightbox-next" aria-label="Next">&#8250;</button>
+  <div class="lightbox-content" id="lightbox-content"></div>
+  <div class="lightbox-meta">
+    <span class="lightbox-mood" id="lightbox-mood"></span>
+    <h3 id="lightbox-title"></h3>
+    <p id="lightbox-date-loc"></p>
+    <p id="lightbox-story"></p>
+    <button class="lightbox-delete" id="lightbox-delete">Remove this memory</button>
+  </div>
+</div>
+
+<!-- ================= VAULT LIGHTBOX ================= -->
+<div class="lightbox vault-lightbox" id="vault-lightbox">
+  <button class="lightbox-close" id="vault-lightbox-close" aria-label="Close">&times;</button>
+  <button class="lightbox-nav lightbox-prev" id="vault-lightbox-prev" aria-label="Previous">&#8249;</button>
+  <button class="lightbox-nav lightbox-next" id="vault-lightbox-next" aria-label="Next">&#8250;</button>
+  <div class="lightbox-content" id="vault-lightbox-content"></div>
+  <div class="lightbox-meta">
+    <p id="vault-lightbox-counter"></p>
+    <button class="lightbox-delete" id="vault-lightbox-delete">Remove from vault</button>
+  </div>
+</div>
+
+<!-- ================= GOOFY VAULT LIGHTBOX ================= -->
+<div class="lightbox vault-lightbox" id="goofy-lightbox">
+  <button class="lightbox-close" id="goofy-lightbox-close" aria-label="Close">&times;</button>
+  <button class="lightbox-nav lightbox-prev" id="goofy-lightbox-prev" aria-label="Previous">&#8249;</button>
+  <button class="lightbox-nav lightbox-next" id="goofy-lightbox-next" aria-label="Next">&#8250;</button>
+  <div class="lightbox-content" id="goofy-lightbox-content"></div>
+  <div class="lightbox-meta">
+    <p id="goofy-lightbox-counter"></p>
+    <button class="lightbox-delete" id="goofy-lightbox-delete">Remove from vault</button>
+  </div>
+</div>
+
+<!-- ================= TOAST ================= -->
+<div class="toast" id="toast"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
